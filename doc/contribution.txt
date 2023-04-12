@@ -1,34 +1,36 @@
-﻿Name: Amarjeet Singh
+Name: Amarjeet Singh
+
 Tasks Completed: 
 - Discussed and Implemented grammar related to strings, arithmetic expression and removed left recursion from the different rules
 -Modifications were made to the grammar structure to ensure its compatibility with ANTLR
+
 Task Completion Plan: 
 - Implement the parsing process and ensure that the grammar accurately defines the language
 -Work on the language runtime environment and implement fundamental operations needed for a simple programming language
 -Collaborate with the other team members to ensure quality and consistency across the project
 
 
-
-
 Name: Paromita Roy
+
 Tasks Completed: 
 -Discussed and implemented grammar on a higher level.
 -Implemented regular grammar and decided and coded grammar related to ternary operator.
 -Modifications were made to the grammar structure to ensure its compatibility with ANTLR.
+
 Task Completion Plan:
 -Test and debug the language implementation, ensuring that sample programs produce correct results
 -Collaborate with the other team members to ensure quality and consistency across the project
 -Contribute to the documentation of the language and its implementation
 
 
-
-
 Name: Siri Rachappa Jarmale
+
 Tasks Completed: 
 - I researched and delved into the implementation process of compilers, and developed a design based on my findings.
 -Coded out grammar related to the print statement 
 - Modifications were made to the grammar structure to ensure its compatibility with ANTLR.
 - The intermediate code generated was verified by comparing it with the parse tree.
+
 Task Completion Plan:
 -Work on the language design and grammar using regular and context-free language specifiers
 -Develop the lexical analyzer and ensure its consistency with the parser
@@ -36,12 +38,12 @@ Task Completion Plan:
 
 
 Name: Subham Kumar 
+
 Tasks Completed: 
  -Discussed and implemented grammar
 - Modifications were made to the grammar structure to ensure its compatibility with ANTLR.
 - Implemented the grammar for constructing the advance for loop.
 - Worked on the design of control statements of the program
-
 
 Task Completion Plan:
 -Implement the intermediate form of the language, such as the abstract syntax tree, three-address code, or byte code
@@ -50,11 +52,11 @@ Contribute to the PowerPoint presentation and video demonstration of the languag
 
 
 Name: Vinay Kantilal Chavhan
+
 Tasks Completed:  
 -Discussed and implemented grammar for constructing the for loops, verified with various examples.
 -Modifications were made to the grammar structure to ensure its compatibility with ANTLR.
 -The intermediate code generated was verified by comparing it with the parse tree.
-
 
 Task Completion Plan:
 -Work on the installation and setup process of the language
