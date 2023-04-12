@@ -5,8 +5,8 @@ Tasks Completed:
 -Modifications were made to the grammar structure to ensure its compatibility with ANTLR
 
 Task Completion Plan: 
-- Implement the parsing process and ensure that the grammar accurately defines the language
--Work on the language runtime environment and implement fundamental operations needed for a simple programming language
+- Implement the tokenizer using Python and generating the .token file and ensuring that the grammar accurately defines the language
+- Passing the tokens file to parser and also working on some documentation
 -Collaborate with the other team members to ensure quality and consistency across the project
 
 
@@ -43,11 +43,15 @@ Tasks Completed:
  -Discussed and implemented grammar
 - Modifications were made to the grammar structure to ensure its compatibility with ANTLR.
 - Implemented the grammar for constructing the advance for loop.
-- Worked on the design of control statements of the program
+- Worked on the design of various control statements of the program
+- Worked on documentation and creation of the final pdf.
 
 Task Completion Plan:
--Implement the intermediate form of the language, such as the abstract syntax tree, three-address code, or byte code
--Ensure that the parser and runtime environment agree on the intermediate form
+- Implement the intermediate form of the language, such as the abstract syntax tree, three-address code, or byte code
+- Generating the parse tree using python ANTLR library.
+- Implement the functionalities of the control statement of the programming language.
+- Can work on different data structures required for the language.
+- Ensure that the parser and runtime environment agree on the intermediate form
 Contribute to the PowerPoint presentation and video demonstration of the language
 
 
@@ -60,6 +64,6 @@ Tasks Completed:
 
 Task Completion Plan:
 -Work on the installation and setup process of the language
-- Implement the main functainlaities of the language like lists, if else and loops.
+- Implement the main functionalities of the language like lists, if else and loops.
 -Collaborate with the other team members to ensure quality and consistency across the project.
--Record and edit the YouTube video demonstration of the language, including an introduction of each team member
+-Record and edit the YouTube video demonstration of the language, including an introduction of each team member.
