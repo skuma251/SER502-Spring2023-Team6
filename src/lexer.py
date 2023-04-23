@@ -6,6 +6,7 @@ tokens = ('RES',
             'INT',
             'IDENTIFIER',
             'OPERATOR',
+            'SPECIAL_CHAR',
             'LEFT_BRACE', 'RIGHT_BRACE'
             )
 
