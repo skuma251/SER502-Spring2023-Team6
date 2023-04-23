@@ -2,8 +2,11 @@ import sys
 import ply.lex as lex
 
 tokens = ('RES',
+          'CONTROL_STATEMENT',
             'INT',
+            'IDENTIFIER',
             'OPERATOR',
+            'LEFT_BRACE', 'RIGHT_BRACE'
             )
 
 def t_RES(t):
@@ -18,6 +21,26 @@ def t_OPERATOR(t):
     r'[-+*/%<>&|^~]|==|='
     if t.value == '==':
         t.type = 'OPERATOR'
+    return t
+
+def t_CONTROL_STATEMENT(t):
+    r'for|in|range|while|if|then|else'
+    return t
+
+def t_IDENTIFIER(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    return t
+
+def t_SPECIAL_CHAR(t):
+    r'.|;'
+    return t
+
+def t_LEFT_BRACE(t):
+    r'{'
+    return t
+
+def t_RIGHT_BRACE(t):
+    r'}'
     return t
 
 t_ignore = ' \t\n'
