@@ -30,6 +30,14 @@ arth3(T1) --> ident(T1).
 %Grammar for conditions
 cond(t_if(T1,T2,T3)) --> [if],['('] ,conds(T1),[')'], [then],['{'], block(T2), ['}'], [else], ['{'], block(T3), ['}'].
 cond(t_while(T1,T2)) --> [while],['('],conds(T1),[')'],['{'], block(T2), ['}'].
+cond(t_for(T1,T2,T3,T4)) --> [for],['('],forupd(T1),[';'],conds(T2),[';'],forupd(T3),[')'],['{'],block(T4),['}'].
+cond(t_forrange(T1,T2,T3,T4)) --> [for], ident(T1),[in],[range],['('],number(T2),[','],number(T3),[')'],['{'],block(T4),['}'].
+
+%Grammar rule for ternary
+tern(t_tern(T1,T2,T3,T4,T5)) --> ['('], ident(T1), condop(T2), ident(T3),[')'], ['?'], exp(T4),[':'], exp(T5).
+
+%Grammar rule for forupdate
+forupd(t_forupd(T1,T2)) --> ident(T1),['='],exp(T2).
 
 %Grammar for boolean expression
 boolexp(t_not(T1)) --> ['not'],ident(T1).
@@ -48,6 +56,7 @@ boolexp(t_or(T1,T2)) --> bool(T1),['or'],bool(T2).
 
 %Grammar for cond statement
 conds(t_condst(T1,T2,T3)) --> exp(T1), condop(T2),exp(T3).
+conds(t_condst(T1)) --> bool(T1).
 
 %Grammar for conditonal operator
 condop(t_comp(==)) --> ['=='].
@@ -85,3 +94,10 @@ number(t_num(6)) -->['6'].
 number(t_num(7)) -->['7']. 
 number(t_num(8)) -->['8']. 
 number(t_num(9)) -->['9'].
+
+
+% Test cases
+%Test case for for. loop
+%program(P,['{', 'int', 'x', '=', '0', '.', 'for', '(', 'x', '=', '0', ';', 'x', '<', '9', ';', 'x', '=', 'x', '+', '1', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
+%Test case for for range
+%program(P,['{','int', 'x', '=', '0', '.', 'for', 'x', 'in', 'range', '(', '0', ',', '5', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
