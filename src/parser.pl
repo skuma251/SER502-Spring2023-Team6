@@ -7,8 +7,13 @@ block(t_block(T1,T2)) --> dec(T1), block(T2).
 
 %Grammar rule for declaration
 dec(t_dec(T1)) --> dec1(T1), ['.'].
-dec(t_dec(T1,T2)) --> dec1(T1),['='],number(T2),['.'].
+dec(t_dec(T1,T2)) --> dec1(T1),['='],exp(T2),['.'].
 dec(t_dec(T1)) --> cond(T1).
+
+%Grammar for expression
+exp(t_exp(T1)) --> number(T1).
+exp(t_exp(T1)) --> bool(T1).
+exp(t_exp(T1)) --> ident(T1).
 
 
 %Grammar for conditions
