@@ -5,13 +5,25 @@ program(t_prog(T1)) --> ['{'], block(T1),['}'].
 block(t_block(T1)) --> dec(T1).
 block(t_block(T1,T2)) --> dec(T1), block(T2).
 
+%Grammar rule for declaration
 dec(t_dec(T1)) --> dec1(T1), ['.'].
 dec(t_dec(T1,T2)) --> dec1(T1),['='],number(T2),['.'].
+dec(t_dec(T1)) --> cond(T1).
 
+
+%Grammar for conditions
+cond(t_if(T1,T2,T3)) --> [if],['('] ,bool(T1),[')'], [then],['{'], block(T2), ['}'], [else], ['{'], block(T3), ['}'].
+cond(t_while(T1,T2)) --> [while],['('],bool(T1),[')'],['{'], block(T2), ['}'].
+
+
+%Grammar rule for datatype declaration
 dec1(t_var(T1)) --> [int], ident(T1).
 dec1(t_var(T1)) --> [bool], ident(T1).
 dec1(t_var(T1)) --> [string], ident(T1).
 
+% Grammar rule for boolean
+bool(t_true()) --> [true].
+bool(t_bool()) --> [false].
 
 %Grammar rules for identifier
 ident(t_ident(x)) --> [x]. 
