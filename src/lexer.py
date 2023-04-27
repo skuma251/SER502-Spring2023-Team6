@@ -1,41 +1,97 @@
 import sys
+import ply.lex as lex
+
+tokens = ('RES',
+          'CONTROL_STATEMENT',
+          'INT',
+          'IDENTIFIER',
+          'OPERATOR',
+          'BOOLEAN',
+          'SPECIAL_CHAR',
+          'LEFT_BRACE',
+          'RIGHT_BRACE',
+          'LEFT_PARAN',
+          'RIGHT_PARAN'
+          )
 
 
-def lexer(filename):
-    token_list = []
-    reserved_keywords = ['int', 'string', 'bool', 'print']
+def t_RES(t):
+    r'int|string|bool|print'
+    return t
 
-    token = ""
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            for i in line:
-                if i == '\t':
-                    continue
-                elif i == ' ':
-                    continue
-                else:
-                    token += i
 
-            each_keyword = ''
-            for i in range(len(token)):
-                if each_keyword in reserved_keywords:
-                    token_list.append(each_keyword)
-                    each_keyword = ''
-                    token[i:]
-                if each_keyword not in reserved_keywords:
-                    each_keyword += token[i]
-                else:
-                    continue
-            token = ''
+def t_INT(t):
+    r'\d+'
+    return t
 
-    return token_list
+
+def t_OPERATOR(t):
+    r'[-+*/%<>&|^~]|==|='
+    if t.value == '==':
+        t.type = 'OPERATOR'
+    return t
+
+
+def t_CONTROL_STATEMENT(t):
+    r'for|in|range|while|if|then|else'
+    return t
+
+
+def t_IDENTIFIER(t):
+    r'[a-zA-Z_][a-zA-Z_0-9]*'
+    return t
+
+
+def t_SPECIAL_CHAR(t):
+    r'.|;'
+    return t
+
+def t_BOOLEAN(t):
+    r'true|false|and|or|not'
+    return t
+
+def t_LEFT_BRACE(t):
+    r'{'
+    return t
+
+
+def t_RIGHT_BRACE(t):
+    r'}'
+    return t
+
+
+def t_LEFT_PARAN(t):
+    r'\('
+    return t
+
+
+def t_RIGHT_PARAN(t):
+    r'\)'
+    return t
+
+
+t_ignore = ' \t\n'
+
+
+def t_error(t):
+    raise TypeError("Unknown text '%s'" % (t.value,))
 
 
 if __name__ == "__main__":
     fileName = sys.argv[1]
     if fileName.endswith(".xyz"):
-        tokens = lexer(fileName)
-        print(tokens)
+        tokenList = []
+        f = open(fileName, "r")
+        Lines = f.readlines()
+        for line in Lines:
+            line = line.rstrip()
+            if line:
+                lexer = lex.lex()
+                lexer.input(line)
+                for tok in iter(lexer.token, None):
+                    tokenList.append(tok.value)
+        file = open('data/tokens.txt', 'w')
+        file.writelines(str(tokenList))
+        file.close()
     else:
         print("Please pass file name with .xyz extension")
