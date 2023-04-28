@@ -61,9 +61,9 @@ bool(t_true()) --> [true].
 bool(t_false()) --> [false].
 
 %Grammar rules for identifier
-ident(t_ident(T1)) --> [T1].
-ident(t_ident(T2)) --> [T2].
-ident(t_ident(z)) -->[z].
+ident(t_ident(x)) --> [x].
+ident(t_ident(y)) --> [y].
+ident(t_ident(z)) --> [z].
 ident(t_ident(u)) --> [u].
 ident(t_ident(v)) --> [v].
 
@@ -81,6 +81,6 @@ number(t_num(9)) -->['9'].
 
 % Test cases
 %Test case for for. loop
-%program(P,['{', 'int', 'T1', '=', '0', '.', 'for', '(', 'T1', '=', '0', ';', 'T1', '<', '9', ';', 'T1', '=', 'T1', '+', '1', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
+%program(P,['{', 'int', 'x', '=', '0', '.', 'for', '(', 'x', '=', '0', ';', 'x', '<', '9', ';', 'x', '=', 'x', '+', '1', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
 %Test case for for range
-%program(P,['{','int', 'T1', '=', '0', '.', 'for', 'T1', 'in', 'range', '(', '0', ',', '5', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
+%program(P,['{','int', 'x', '=', '0', '.', 'for', 'x', 'in', 'range', '(', '0', ',', '5', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
