@@ -37,7 +37,8 @@ cmd(empty_command([])) --> [].
 singlecmd(t_assign(X,Y)) --> ident(X), ['='], exp(Y),['.'].
 
 singlecmd(t_ifelse(T1,T2,T3)) --> ['if'], ['('],boolexp(T1),[')'], [then],['{'], cmd(T2), ['}'], [else], ['{'], cmd(T3), ['}'].
-
+single_command(t_while(T1,T2)) --> [while], ['('], boolean_exp(T1), [')'], ['{'], cmd(T2), ['}'].
+single_command(t_forrange(T1, T2, T3, T4)) -->  [for], ident(T1),[in],[range],['('],number(T2),[','],number(T3),[')'],['{'],cmd(T4),['}'].
 
 boolexp(t_bool_not(X)) --> ['not' ], boolexp(X).
 boolexp(t_bool_true(true)) --> [true].
