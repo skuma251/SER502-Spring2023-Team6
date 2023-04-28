@@ -1,100 +1,87 @@
-%:- use_rendering(svgtree).
-:- table  dec/3,arth/3, arth2/3.
+:- table  dec/3,term/3, expr/3.
+
 %Grammar rule for  Program
-program(t_prog(T1)) --> ['{'], block(T1),['}'].
+program(t_prog(T1)) --> block(T1).
 
 %Grammar rule for block
-block(t_block(T1)) --> dec(T1).
-block(t_block(T1,T2)) --> dec(T1), block(T2).
+block(t_block(T1,T2)) -->  ['{'], dec(T1), cmd(T2), ['}'].
 
-dec(t_dec(T1)) --> dec1(T1), ['.'].
-dec(t_dec(T1,T2)) --> dec1(T1),['='],exp(T2),['.'].
-dec(t_dec(T1)) --> cond(T1).
-
-%Grammar for expression
-exp(t_exp(T1)) --> number(T1).
-exp(t_exp(T1)) --> boolexp(T1). 
-exp(t_exp(T1)) --> ident(T1).
-exp(t_exp(T1)) --> arth(T1).
-
-% Grammar for arithemetic expression    
-arth(t_add(T1,T2)) --> arth(T1),[+], arth2(T2).
-arth(t_sub(T1,T2)) --> arth(T1),[-], arth2(T2).
-arth(T1) --> arth2(T1).
-arth2(t_mul(T1,T2)) --> arth2(T1), [*], arth3(T2).
-arth2(t_div(T1,T2)) --> arth2(T1), [/], arth3(T2).
-arth2(T1) --> arth3(T1).
-arth3(T1) --> number(T1).
-arth3(T1) --> ident(T1).
-
-%Grammar for conditions
-cond(t_if(T1,T2,T3)) --> [if],['('] ,conds(T1),[')'], [then],['{'], block(T2), ['}'], [else], ['{'], block(T3), ['}'].
-cond(t_while(T1,T2)) --> [while],['('],conds(T1),[')'],['{'], block(T2), ['}'].
-cond(t_for(T1,T2,T3,T4)) --> [for],['('],forupd(T1),[';'],conds(T2),[';'],forupd(T3),[')'],['{'],block(T4),['}'].
-cond(t_forrange(T1,T2,T3,T4)) --> [for], ident(T1),[in],[range],['('],number(T2),[','],number(T3),[')'],['{'],block(T4),['}'].
-
-%Grammar rule for ternary
-tern(t_tern(T1,T2,T3,T4,T5)) --> ['('], ident(T1), condop(T2), ident(T3),[')'], ['?'], exp(T4),[':'], exp(T5).
-
-%Grammar rule for forupdate
-forupd(t_forupd(T1,T2)) --> ident(T1),['='],exp(T2).
-
-%Grammar for boolean expression
-boolexp(t_not(T1)) --> ['not'],ident(T1).
-boolexp(t_not(T1)) --> ['not'],bool(T1).
-boolexp(t_equal(T1)) --> bool(T1).
-boolexp(t_and(T1,T2)) --> ident(T1),['and'],ident(T2).
-boolexp(t_and(T1,T2)) --> bool(T1),['and'],bool(T2).
-boolexp(t_or(T1,T2)) --> ident(T1),['or'],ident(T2).
-boolexp(t_or(T1,T2)) --> bool(T1),['or'],bool(T2).
-% Comments from TA 
-%boolexp(t_and(T1,T2)) --> ident(T1),['and'],bool(T2).
-%boolexp(t_and(T1,T2)) --> bool(T1),['and'],ident(T2).
-%boolexp(t_or(T1,T2)) --> ident(T1),['or'],bool(T2).
-%boolexp(t_or(T1,T2)) --> bool(T1),['or'],ident(T2).
+dec(t_multdec(T1,T2)) --> singledec(T1), [.], dec(T2).
+dec(t_singledec(X)) --> singledec(X), [.].
 
 
-%Grammar for cond statement
-conds(t_condst(T1,T2,T3)) --> exp(T1), condop(T2),exp(T3).
-conds(t_condst(T1)) --> bool(T1).
+singledec(t_declr_var(T1, T2, T3)) --> datatype(T1), ident(T2), ['='], exp(T3).
 
-%Grammar for conditonal operator
-condop(t_comp(==)) --> ['=='].
-condop(t_comp(<)) --> ['<'].
-condop(t_comp(>)) --> ['>'].
-condop(t_comp(<=)) --> ['<','='].
-condop(t_comp(>=)) --> ['>','='].
-condop(t_comp('!=')) --> ['!','=']. % Need to fix this unbalanced operator
-    
+exp(t_multi_exp(X,Y)) --> ident(X), ['='], exp(Y).
+exp(t_exp(X)) --> expr(X).
+
+expr(t_add(X,Y)) --> expr(X), [+], term(Y).
+expr(t_sub(X,Y)) --> expr(X), [-], term(Y).
+expr(X) --> term(X).
+
+term(t_mul(X,Y)) --> term(X), [*], term1(Y).
+term(t_div(X,Y)) --> term(X), [/], term1(Y).
+term(X) --> term1(X).
+term1(X) --> ident(X).
+term1(X) --> number(X).
+
+
+
+cmd(t_multicmd(X,Y)) --> singlecmd(X), ['.'], cmd(Y).
+cmd(t_singlecmd(X)) --> singlecmd(X).
+cmd(empty_command([])) --> [].
+
+
+
+
+singlecmd(t_assign(X,Y)) --> ident(X), ['='], exp(Y),['.'].
+
+singlecmd(t_ifelse(T1,T2,T3)) --> ['if'], ['('],boolexp(T1),[')'], [then],['{'], cmd(T2), ['}'], [else], ['{'], cmd(T3), ['}'].
+
+
+boolexp(t_bool_not(X)) --> ['not' ], boolexp(X).
+boolexp(t_bool_true(true)) --> [true].
+boolexp(t_bool_false(false)) --> [false].
+boolexp(t_bool_equal(X,Y)) --> exp(X), ['=='], exp(Y).
+boolexp(t_bool_not_equal(X,Y)) --> exp(X), ['!='], exp(Y).
+boolexp(t_bool_less_than(X,Y)) --> exp(X), [<], exp(Y).
+boolexp(t_bool_greater_than(X,Y)) --> exp(X), [>], exp(Y).
+boolexp(t_bool_greater_than_equal(X,Y)) --> exp(X), [>=], exp(Y).
+boolexp(t_bool_less_than_equal(X,Y)) --> exp(X), [<=], exp(Y).
+boolexp(t_bool_or(X,Y)) --> exp(X), ['or'], exp(Y).
+boolexp(t_bool_and(X,Y)) --> exp(X), ['and'], exp(Y).
+
+
+
+
 %Grammar rules for declaration
-dec1(t_var(T1)) --> [int], ident(T1).
-dec1(t_var(T1)) --> [bool], ident(T1).
-dec1(t_var(T1)) --> [string], ident(T1).
+datatype(t_int) --> [int].
+datatype(t_bool) --> [bool].
+datatype(t_str) --> [string].
 
 % Grammar rule for boolean
 bool(t_true()) --> [true].
-bool(t_false()) --> [false]. 
+bool(t_false()) --> [false].
 
 %Grammar rules for identifier
-ident(t_ident(x)) --> [x]. 
-ident(t_ident(y)) --> [y]. 
-ident(t_ident(z)) -->[z]. 
-ident(t_ident(u)) --> [u]. 
-ident(t_ident(v)) --> [v]. 
+ident(t_ident(x)) --> [x].
+ident(t_ident(y)) --> [y].
+ident(t_ident(z)) -->[z].
+ident(t_ident(u)) --> [u].
+ident(t_ident(v)) --> [v].
 
 
 %Grammar rules for numbers
-number(t_num(0)) -->['0']. 
-number(t_num(1)) -->['1']. 
-number(t_num(2)) -->['2']. 
-number(t_num(3)) -->['3']. 
-number(t_num(4)) -->['4']. 
-number(t_num(5)) -->['5']. 
-number(t_num(6)) -->['6']. 
-number(t_num(7)) -->['7']. 
-number(t_num(8)) -->['8']. 
+number(t_num(0)) -->['0'].
+number(t_num(1)) -->['1'].
+number(t_num(2)) -->['2'].
+number(t_num(3)) -->['3'].
+number(t_num(4)) -->['4'].
+number(t_num(5)) -->['5'].
+number(t_num(6)) -->['6'].
+number(t_num(7)) -->['7'].
+number(t_num(8)) -->['8'].
 number(t_num(9)) -->['9'].
-
 
 % Test cases
 %Test case for for. loop
