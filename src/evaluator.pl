@@ -45,6 +45,8 @@ eval_cmd1(empty_command(), Env, Env).
 eval_cmd1(t_ifelse(T1,T2,_),Env,Z):- bool_eval(T1,Env,Env1,true), eval_cmd(T2,Env1,Z).
 eval_cmd1(t_ifelse(T1,_,T2),Env,Z):- bool_eval(T1,Env,Env1,false), eval_cmd(T2,Env1,Z).
 
+eval_cmd1(t_ternary(T1,T2,_),Env,NewEnv) :- bool_eval(T1,Env,Env1,true),eval_cmd(T2,Env1,NewEnv).
+eval_cmd1(t_ternary(T1,_,T2),Env,NewEnv):- bool_eval(T1,Env,Env1,false),eval_cmd(T2,Env1,NewEnv).
 
 eval_cmd1(t_while(BoolExp, Cmd), Env, NewEnv) :-
     bool_eval(BoolExp, Env, _, 'true'),
@@ -66,9 +68,6 @@ forrange(Id, From, To, Cmds, Env, NewEnv) :-
     eval_cmd(Cmds, Env1, Env2),
     Next is From + 1,
     forrange(Id, Next, To, Cmds, Env2, NewEnv).
-
-eval_cmd1(t_ternary(T1,T2,_),Env,NewEnv) :- bool_eval(T1,Env,Env1,true),eval_cmd(T2,Env1,NewEnv).
-eval_cmd1(t_ternary(T1,_,T2),Env,NewEnv):- bool_eval(T1,Env,Env1,false),eval_cmd(T2,Env1,NewEnv).
 
 
 bool_eval(t_bool_true(true), _, _, 'true').
