@@ -1,0 +1,7 @@
+{
+    int y = 1.
+    int x = 0.
+    for x in range(2, 5) {
+        y = y + 1.
+    }
+}
