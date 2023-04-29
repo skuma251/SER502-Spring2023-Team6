@@ -20,10 +20,10 @@ eval_singledec(t_declr_var(_, t_ident(X), Exp), Env, NewEnv) :-
     update(X, Val, Env, NewEnv).
 
 eval_cmd(t_multicmd(T1,T2),Env, NewEnv) :-
-    eval_cmd1(T1, Env, Env1), eval_cmd(T2, Env1, NewEnv).
+    eval_cmd1(T1, Env, Env1),eval_cmd(T2,Env1,NewEnv).
 
-eval_cmd(t_multicmd(T1,T2),Env, NewEnv) :-
-    eval_cmd1(T1, Env, Env1),eval_cmd1(T2,Env1,NewEnv).
+eval_cmd(t_multicmd(T1),Env, NewEnv) :-
+    eval_cmd1(T1, Env, NewEnv).
 
 eval_cmd(t_singlecmd(D), Env, NewEnv) :-
     eval_cmd1(D, Env, NewEnv).
@@ -33,6 +33,12 @@ eval_cmd1(t_assign(t_ident(T), Exp), Env, NewEnv) :-
     update(T, Val, Env, NewEnv).
 
 eval_cmd1(empty_command(), Env, Env).
+
+eval_cmd1(t_ifelse(T1,T2,_),Env,Z):- bool_eval(T1,Env,Env1,true), eval_cmd(T2,Env1,Z).
+eval_cmd1(t_ifelse(T1,_,T2),Env,Z):- bool_eval(T1,Env,Env1,false), eval_cmd(T2,Env1,Z).
+
+bool_eval(t_bool_true(true), _, _, 'true').
+bool_eval(t_bool_false(false), _, _, 'false').
 
 
 eval_exp(t_exp(E), Env, Val) :-
@@ -68,4 +74,5 @@ lookup(Var,[_|Tail],Val):- lookup(Var,Tail,Val).
 update(Var,NewVar, [], [(Var,NewVar)]).
 update(Var, NewVar, [(Var,_)|Tail], [(Var, NewVar)|Tail]).
 update(Var, NewVar, [Head|Tail], [Head|NewEnv]) :-Head \= (Var,_),update(Var,NewVar, Tail, NewEnv).
+
 
