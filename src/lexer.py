@@ -1,5 +1,7 @@
 import sys
 import ply.lex as lex
+import os 
+import subprocess
 
 tokens = ('RES',
           'CONTROL_STATEMENT',
@@ -76,7 +78,7 @@ t_ignore = ' \t\n'
 def t_error(t):
     raise TypeError("Unknown text '%s'" % (t.value,))
 
-
+output_file = "data/tokens.txt"
 if __name__ == "__main__":
     fileName = sys.argv[1]
     if fileName.endswith(".xyz"):
@@ -90,8 +92,14 @@ if __name__ == "__main__":
                 lexer.input(line)
                 for tok in iter(lexer.token, None):
                     tokenList.append(tok.value)
-        file = open('data/tokens.txt', 'w')
+
+        file = open(output_file, 'w')
         file.writelines(str(tokenList))
         file.close()
+        output_file = "data/tokens.txt"
+        inp_string = str(tokenList)
+        result = subprocess.check_output('''swipl -g "consult('src/parser.pl'), program(P,''' + inp_string + ''', []), write(P), halt."''', shell=True)
+        result1 =str(result, encoding="UTF-8")
+        os.system('''swipl -g "consult('src/evaluator.pl'), eval_program(''' + result1 + ''', Env), write(Env), halt."''')
     else:
         print("Please pass file name with .xyz extension")
