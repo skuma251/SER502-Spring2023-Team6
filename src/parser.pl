@@ -55,6 +55,7 @@ datatype(t_str) --> [string].
 
 value(t_int(T)) --> number(T).
 value(t_booleanexpr(T)) --> boolexp(T).
+value(T) --> singlecmd(T).
 
 % Grammar rule for boolean
 bool(t_true()) --> [true].
