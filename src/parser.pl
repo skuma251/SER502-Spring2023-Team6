@@ -24,9 +24,9 @@ term(T1) --> term1(T1).
 term1(T1) --> ident(T1).
 term1(T1) --> number(T1).
 
-cmd(t_multicmd(T1,T2)) --> singlecmd(T1), ['.'], cmd(T2).
+cmd(t_multicmd(T1,T2)) --> singlecmd(T1), cmd(T2).
 cmd(t_singlecmd(T1)) --> singlecmd(T1).
-cmd(empty_command([])) --> [].
+cmd() --> [].
 
 singlecmd(t_assign(T1,T2)) --> ident(T1), ['='], exp(T2),['.'].
 
@@ -84,3 +84,4 @@ number(t_num(9)) -->['9'].
 %program(P,['{', 'int', 'x', '=', '0', '.', 'for', '(', 'x', '=', '0', ';', 'x', '<', '9', ';', 'x', '=', 'x', '+', '1', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
 %Test case for for range
 %program(P,['{','int', 'x', '=', '0', '.', 'for', 'x', 'in', 'range', '(', '0', ',', '5', ')', '{', 'int', 'z', '=', '0', '.', '}', '}'], []).
+
